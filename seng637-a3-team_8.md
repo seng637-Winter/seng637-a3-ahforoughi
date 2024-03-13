@@ -59,7 +59,7 @@ DEF(124):= ∅, USE(124):= {upper}<br />
 ### The Data Flow Graphs :
 
 #### DataUtilities.calculateColumnTotal : 
-![](media/calculateColumnTotal_DataflowGraph.png)
+![](media/5.png)
 
 
 ### List of the DU-Pairs Per Variable for each method: 
@@ -106,21 +106,21 @@ When analyzing these totals from the A2 test cases for the calculateColumnTotal 
 Initially, we executed EclEmma for the test cases that we wrote for Assignment 2. In the following screenshots, you can observe that we utilized Branch Coverage, Complexity Coverage, Instruction Coverage, Line Coverage, and Method Coverage for the DataUtilities and Range classes, and we have low testing coverage. For instance, you can notice that the method equal's Branch Coverage percentage is 75%, but after incorporating new test cases, all of them will improve.
 
 Branch Coverage:
-![](media/first/branch_coverage.png)
+![](media/first/1.png)
 
 Complexity Coverage:
-![](media/first/complexity_coverage.png)
+![](media/first/2.png)
 
 Instruction Coverage:
-![](media/first/instruction_coverage.png)
+![](media/first/3.png)
 
 Line Counter Coverage:
-![](media/first/line_counter_coverage.png)
+![](media/first/4.png)
 
 Method Coverage:
-![](media/first/method_coverage_datautilites.png)
+![](media/first/5.png)
 
-![](media/first/method_coverage_range.png)
+![](media/first/6.png)
 
 
 # 4 A high level description of five selected test cases you have designed using coverage information, and how they have increased code coverage
@@ -131,7 +131,7 @@ For the Range class, the methods that we selected for Assignment 2 include: Expa
 After using EclEmma to calculate the coverage for the test suite, we wrote new test cases to cover the uncovered branches.
 ### 4.a.1. ExpandToInclude Method:
  
-![](media/expand_to_include_initital.PNG)
+![](media/6.PNG)
 
 Based on EclEmma output for this method, the null range is not covered on our test suit, so we add a new test case for covering null range.
 
@@ -144,28 +144,242 @@ Based on EclEmma output for this method, the null range is not covered on our te
     }
 ```
 after adding above test case, the branch coverage for the method changes to 100 and all the lines in the method definition changes to green.
-![](media/expand_to_include_final.PNG)
+![](media/7.PNG)
+
+### 4.a.2. Expand Method:
+For the expand method, the initial branch coverage was 50%, and the uncovered scenario was when, in expanding the range, the lower bound becomes larger than the upper bound. To cover this scenario, we added a test with negative margins.
+![](media/8.PNG)
+
+```java
+	@Test
+	public void testExpand_changingTheupperboundAndLowerbound_ExpandsRangeCorrectly() {
+		Range range = new Range(0, 10.0);
+		Range expandedRange = Range.expand(range, -0.8, -0.8);
+		assertEquals(5, expandedRange.getLowerBound(), 0.0);
+		assertEquals(5, expandedRange.getUpperBound(), 0.0);
+
+	}
+```
+after adding this test case the coverage changed to 100%.
+
+![](media/9.PNG)
+
+
+### 4.a.3. Contains Method:
+
+![](media/10.PNG)
+
+For the contains method, the last line of the code is highlighted in yellow, indicating that 2 of 4 branches are not covered in the test suite, resulting in a branch coverage of 75%. We attempted to add more test cases, but achieving higher branch coverage was not possible. This is because there is no scenario in which we can reach the last line of code with the conditions being false. Therefore, higher coverage is not achievable due to the unreachability of the code in this particular scenario.
+
+### 4.a.4. GetLowerbound Method
+The branch coverage for the GetLowerBound method was initially 50%. The uncovered branch is similar to the scenario in the GetUpperBound method, where a specific part of the code cannot be reached in our test suite. This limitation is due to the constraints imposed by the class's design, which prevents the lower bound from being greater than the upper bound. As a result, increasing the branch coverage for this method is not feasible within the current implementation.
+
+![](media/11.PNG)
+
+
+## 4.b ِ  DataUtilities
+
+For class DataUtilities methods, CreatNumberArray method had branch coverage of 100% based on previous test suits.
+
+### 4.b.1 Equal Method
+ 
+ The initial branch coverage for the equal method was 75%.
+ 
+![](media/12.PNG)
+
+Based on EclEmma, the uncovered branches for this method was when the a is null, so we add a test suits where  a is null to cover both branch on b==null condition.
+
+```java
+    @Test
+    public void testEqualMethod_withBothNullValue() {
+    	double data1[][] = null;
+    	double data2[][] = null;
+    	assertTrue(DataUtilities.equal(data1, data2));
+  			
+    }
+    
+    @Test
+    public void testEqualMethod_withOneNullValue() {
+    	double data1[][] = null;
+    	double data2[][] = {{1.0, 2.0, 3.0}, {4.0, 5.0, 6.0}};
+    	assertFalse(DataUtilities.equal(data1, data2));
+  			
+    }
+```
+
+and we were able to change the branch coverage to 100%.
+
+![](media/13.PNG)
+
+### 4.b.2 getCumulativePercentages Method
+The initial branch coverage for the getCumulativePercentages method was 58.3%.
+
+![](media/14.PNG)
+
+Using EclEmma we found the branch that we did not covred before and write new test case to cover it.
+```java
+	@Test
+	public void getCumulativePercentageForNullValue() {
+		//   verify 
+			assertEquals(0.1, DataUtilities.getCumulativePercentages(KeyValues1).getValue(0).doubleValue(), .000000001d);
+	}
+```
+and we were able to change the branch coverage to 75%.
+
+![](media/15.PNG)
+
+### 4.b.3 calculateRowTotal Method
+The initial branch coverage for the calculateRowTotal method was 50%.
+
+![](media/16.PNG)
+
+Using EclEmma we found the branch that we did not covred before and write new test case to cover it.
+
+```java
+	@Test
+	public void calculateRowTotalForRowOne_withNullValue() { 
+
+		double result =DataUtilities.calculateRowTotal(values1, 0); 
+		//   verify 
+		assertEquals(result, 1.5, .000000001d);
+		}
+```
+and we were able to change the branch coverage to 62.5%.
+
+![](media/17.PNG)
+
+### 4.b.4 calculateColumnTotal Method
+The initial branch coverage for the calculateColumnTotal method was 50%.
+
+![](media/18.PNG)
+
+Using EclEmma we found the branch that we did not covred before and write new test case to cover it.
+
+```java
+	@Test
+	public void calculateRowTotalForRowOne_withNullValue() { 
+
+		double result =DataUtilities.calculateRowTotal(values1, 0); 
+		//   verify 
+		assertEquals(result, 1.5, .000000001d);
+	}
+```
+and we were able to change the branch coverage to 62.5%.
+
+![](media/19.PNG)
 
 # 5 A detailed report of the coverage achieved of each class and method (a screen shot from the code cover results in green and red color would suffice)
 
-Text…
+After running EclEmma for the test cases that we wrote for Assignment 2, plus the additional ones we added to increase coverage in this assignment, we observed significant improvements in our testing coverage. In the following screenshots, you can see that we utilized Branch Coverage, Complexity Coverage, Instruction Coverage, and Line Coverage for the DataUtilities and Range classes, and now we have high testing coverage. For example, the method equal's Branch Coverage percentage, which was 75% using the test cases from Assignment 2, is now 100%. This demonstrates the effectiveness of our added test cases in enhancing the overall coverage.
+
+
+Branch Coverage:
+![](media/final/1.png)
+
+Complexity Coverage:
+![](media/final/2.png)
+
+Instruction coverage:
+![](media/final/3.png)
+
+Line Counter Coverage:
+![](media/final/4.png)
+
 
 # 6 Pros and Cons of coverage tools used and Metrics you report
 
-Text…
+The pros and cons of using EclEmma are as follows:
+
+**Pros:**
+
+1. **Integration with IDEs:** EclEmma integrates seamlessly with popular Java development environments, such as Eclipse and IntelliJ IDEA, making it convenient for developers to use within their existing workflows.
+2. **Coverage Metrics:** EclEmma provides valuable metrics such as statement coverage and branch coverage, helping developers identify which parts of their code are being tested and which are not.
+3. **Quality Improvement:** By highlighting untested parts of the code, EclEmma encourages developers to improve the quality and completeness of their test suite.
+4. **Visual Reports:** The tool offers visual reports that aid developers in understanding the coverage of their code and pinpointing areas that require additional testing.
+5. **Accessibility:** As an open-source tool, EclEmma is freely available to developers and teams of all sizes.
+
+**Cons:**
+
+1. **Limited Scope:** EclEmma focuses solely on code coverage, which is only one aspect of software quality. It does not ensure the correctness, completeness, or efficiency of the code.
+2. **Resource Intensive:** For large codebases or complex applications, EclEmma can be resource-intensive and may slow down the testing process.
+3. **Limited Suitability:** The tool may not be suitable for applications with heavy reliance on external systems or dependencies that are challenging to mock or test.
+4. **Coverage vs. Quality:** EclEmma measures test coverage but does not assess the quality or completeness of the tests themselves.
+5. **Potential for Misinterpretation:** In some cases, EclEmma might produce false positives or false negatives, especially for complex code paths or edge cases.
+
+In summary, EclEmma can be a valuable tool for measuring the coverage of Java test suites, but it should be used alongside other quality assurance tools and practices to ensure comprehensive evaluation of the code's correctness, completeness, and efficiency.
 
 # 7 A comparison on the advantages and disadvantages of requirements-based test generation and coverage-based test generation.
 
-Text…
+**1. Requirements-based test generation:**
+
+**Advantages:**
+
+- **Focused on Functional Requirements:** Ensures that test cases cover all functional requirements of the application, leading to a comprehensive evaluation of the software's intended behavior.
+- **Identifies Requirement Gaps:** Can help uncover missing or incomplete requirements, contributing to a more robust and complete specification of the application.
+- **Business Alignment:** Test cases are aligned with business goals and user needs, ensuring that the application meets the expectations of its stakeholders.
+- **Compliance Assurance:** Useful for applications that need to meet specific regulatory or compliance requirements, as it ensures that all necessary conditions are tested.
+
+**Disadvantages:**
+
+- **Time and Cost:** Can be time-consuming and expensive, especially for complex or large-scale applications, due to the need for thorough analysis and documentation of requirements.
+- **Limited to Functional Aspects:** May not adequately address non-functional requirements such as performance, security, or scalability.
+- **Potential for Missed Scenarios:** May not cover all edge cases or unexpected scenarios that can arise during the use of the application.
+- **Less Flexible:** May not be suitable for applications that are still evolving or subject to frequent changes, as the test generation process would need to be repeated with each change.
+
+**2. Coverage-based test generation:**
+
+**Advantages:**
+
+- **Comprehensive Code Coverage:** Ensures that the test suite covers all code paths and branches, leading to a thorough evaluation of the application's implementation.
+- **Detection of Subtle Defects:** Can help identify defects or errors in the application that might be difficult to detect through manual testing or other methods.
+- **Alignment with Codebase:** Ensures that the test suite is comprehensive and directly related to the codebase of the application.
+- **Automation and Integration:** Can be automated and integrated into the software development process, reducing the time and effort required for testing.
+
+**Disadvantages:**
+
+- **May Miss Functional Requirements:** Might not ensure that the test cases cover all functional requirements of the application, leading to potential gaps in the evaluation of the software's behavior.
+- **Generation of Redundant Test Cases:** May produce redundant or irrelevant test cases that do not contribute to the quality of the test suite.
+- **Limited Focus on Non-Functional Aspects:** May not adequately address non-functional requirements such as usability or user experience.
+- **Potential for Missed Scenarios:** May not cover all edge cases or unexpected scenarios that can arise during the use of the application.
 
 # 8 A discussion on how the team work/effort was divided and managed
 
-Text…
+All tests were conducted with all team members present simultaneously and collaboratively. However, when it came to writing the report, we divided the tasks among ourselves. We ensured that the workload, both in terms of quantity and type, was evenly distributed among all team members. This approach was feasible due to the more manageable and quantifiable nature of the assignment, which consisted of more discrete tasks. This division of labor provided equal learning opportunities for each team member while minimizing the workload. For collaboration purposes, we heavily relied on GitHub and in-person meetings.
 
 # 9 Any difficulties encountered, challenges overcome, and lessons learned from performing the lab
 
-Text…
+During the lab, we encountered several difficulties and challenges, but we also learned valuable lessons from these experiences:
+
+**Difficulties Encountered:**
+
+1. **Understanding Complex Concepts:** Grasping complex concepts such as white-box coverage criteria and data-flow coverage was challenging initially.
+2. **Setting Up Tools:** Setting up and configuring tools like EclEmma for code coverage analysis required some effort and troubleshooting.
+3. **Designing Test Cases:** Designing effective test cases that covered all the required scenarios and branches was a time-consuming process.
+
+**Challenges Overcome:**
+
+1. **Collaboration:** Working collaboratively as a team helped us overcome individual knowledge gaps and provided a platform for peer learning.
+2. **Incremental Testing:** By breaking down the testing process into smaller, manageable chunks, we were able to focus on one aspect at a time, making the overall process more efficient.
+3. **Continuous Learning:** We overcame the challenge of understanding complex concepts by continuously learning and seeking clarification through various resources, including online forums, documentation, and discussions with peers and instructors.
+
+**Lessons Learned:**
+
+1. **Importance of Test Coverage:** We learned the significance of test coverage in ensuring the reliability and robustness of software.
+2. **Effective Communication:** Effective communication within the team was crucial for dividing tasks, sharing knowledge, and ensuring that everyone was on the same page.
+3. **Adaptability:** We learned to be adaptable and flexible in our approach, as we had to modify our test cases and strategies based on the coverage results and feedback.
+4. **Attention to Detail:** The lab taught us the importance of paying attention to detail, especially when designing test cases and analyzing coverage results.
+5. **Value of Collaboration:** Collaborating with team members, leveraging each other's strengths, and learning from each other's experiences were invaluable aspects of the lab experience.
 
 # 10 Comments/feedback on the lab itself
 
-Text…
+Here's a shorter version of the comments and feedback on the lab:
+
+**Positive Aspects:**
+1. **Practical Application:** Hands-on experience with tools like EclEmma was valuable.
+2. **Learning Opportunity:** The lab offered insights into white-box testing techniques.
+3. **Teamwork:** Emphasized collaboration and teamwork.
+
+
+**General Feedback:**
+
+The lab was a valuable learning experience, though some improvements could enhance it further.
