@@ -129,6 +129,7 @@ Method Coverage:
 For the Range class, the methods that we selected for Assignment 2 include: ExpandToInclude, Expand, Contains, GetUpperBound, and GetLowerBound.
 
 After using EclEmma to calculate the coverage for the test suite, we wrote new test cases to cover the uncovered branches.
+
 ### 4.a.1. ExpandToInclude Method:
  
 ![](media/6.PNG)
@@ -144,6 +145,7 @@ Based on EclEmma output for this method, the null range is not covered on our te
     }
 ```
 after adding above test case, the branch coverage for the method changes to 100 and all the lines in the method definition changes to green.
+
 ![](media/7.PNG)
 
 ### 4.a.2. Expand Method:
